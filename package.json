@@ -2,15 +2,19 @@
   "name": "bholebackend",
   "version": "1.0.0",
   "description": "A backend at trikal ",
+  "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+    "dev": "nodemon src/index.js"
+     },
   "keywords": [
     "javascipts",
     "backend",
     "bhole"
   ],
   "author": "BHOLE",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
 }
