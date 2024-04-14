@@ -1,1 +1,1 @@
-export const DB_NAME = "hinatube"
+export const DB_NAME = "tsunatube"

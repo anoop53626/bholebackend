@@ -23,4 +23,12 @@ we use ATLAS
 try catch ya promises:
 
 dotenv mongoose express
- 
+ we use cookie-parse and cors
+used multer
+
+we use many middlewares
+    it checks conditons like instagram login id 
+    node error :must read
+
+    statuscode : must read like 404 eror ,401 error
+    memo are used in big companies abut not used in startup 
