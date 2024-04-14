@@ -31,13 +31,19 @@ we use many middlewares
     node error :must read
 
     statuscode : must read like 404 eror ,401 error
- #  memo are used in big companies abut not used in startup 
+ #  memo are used in big companies but not used in startup 
 
     we use hooks and JWT(java ware)
 
    # mongoose.aggregate.paginate version 2 :  it is a package that we used to allow agrregation query
 
-#  agrregation pipeline
+agrregation pipeline
 # bcrypt js : library fo nodejs   and we use only bcrypt : hash my passwords
-# hooke: pre
+ hooks: pre
 #   token : JWT(JSON WEB TOKEN) (bearer token)
+
+
+file upload maximum kaam backend pr hota h :express  for fileupload  & we use  multer for creating middlewares  in this session
+# cloudinary : sdk h we use multer to upload image
+
+
