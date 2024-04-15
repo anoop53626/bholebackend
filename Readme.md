@@ -74,4 +74,4 @@ GET(retrieve),HEAD(no message),OPTIONS,TRACE,DELETE,PUT(replace), pOST(interact)
 
 
 # api testing: thunderclient
-# postman:common tools h 
+# postman:common tools h jo hme janan hi chahiye'

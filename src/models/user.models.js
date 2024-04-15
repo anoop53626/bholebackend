@@ -15,7 +15,7 @@ const userSchema = new Schema(
             // searchable bnane ke liye index ki value true kr do
         },
 
-        emial: {
+        email: {
             type: String,
             required: true,
             unique: true,
@@ -39,7 +39,7 @@ const userSchema = new Schema(
             
         },
 
-        coverimage: {
+        coverImage: {
             type: String, // cloudnary url
            
         },
@@ -64,10 +64,10 @@ const userSchema = new Schema(
  }
 )
 
-userSchema.pre("save", function (next) {
+userSchema.pre("save", async function (next) {
     if (! this.isModified("password"))  return next();
    
-    this.password = bcrypt.hash(this.password, 10 )// yha pr callback ka USE krte h 
+    this.password = await bcrypt.hash(this.password, 10 )// yha pr callback ka USE krte h 
     next()
 } )
 
