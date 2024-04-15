@@ -47,3 +47,27 @@ file upload maximum kaam backend pr hota h :express  for fileupload  & we use  m
 # cloudinary : sdk h we use multer to upload image
 
 
+
+
+
+
+# before writng controllers : we must need to read about http server
+
+## http: some headers: accept, user agent,authorization,content-type,cookie,cache-control
+
+
+cors:
+
+# http methods:
+GET(retrieve),HEAD(no message),OPTIONS,TRACE,DELETE,PUT(replace), pOST(interact) ,PATCH(change a partof resource)
+
+# http status code
+1xx  : informational
+2xx  :  success
+3xx  : redirection
+4xx  : client error
+5xx  : server error
+
+101(continue), 102(processing)
+200(ok)
+201(created),202(acceptance)
