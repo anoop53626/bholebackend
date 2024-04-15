@@ -71,3 +71,7 @@ GET(retrieve),HEAD(no message),OPTIONS,TRACE,DELETE,PUT(replace), pOST(interact)
 101(continue), 102(processing)
 200(ok)
 201(created),202(acceptance)
+
+
+# api testing: thunderclient
+# postman:common tools h 
