@@ -90,18 +90,19 @@ userSchema.methods.generateAccessToken = function(){
     )
 }
 
-userSchema.methods.generateFreshToken = function(){}
+userSchema.methods.generateFreshToken = function(){
 
     return jwt.sign(
          {
              _id: this._id,
             
          },
-         process.env.REFRFESH_TOKEN_SECRET,
+         process.env.REFRESH_TOKEN_SECRET,
          {
              expiresIn: process.env.REFRESH_TOKEN_EXPIRY
          }
-     )
+     );
+};
  
 
 export const User = mongoose.model("User", userSchema);

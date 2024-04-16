@@ -1,31 +1,33 @@
-import { v2 as BHOLE} from "cloudinary";
-import { fs } from "fs";
+import { v2 as cloudinary } from "cloudinary";
+import  fs  from "fs";
 // file system : many function && unlink path is most important
   
           
           
 cloudinary.config({ 
-  cloud_name: 'process.env.CLOUDNARY_CLOUD_NAME', 
-  api_key: 'process.env.CLOUDNINARY_API_KEY  ', 
-  api_secret: ' process.env.CLOUDINAREY_API_SECRET' 
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME, 
+  api_key: process.env.CLOUDNINARY_API_KEY  , 
+  api_secret:  process.env.CLOUDINARY_API_SECRET 
 });
 
 // thoda pechida h file system bhi database ki trh
 
-const uploarOnCloudinary = async (localFilePath) => {
+const uploadOnCloudinary = async (localFilePath) => {
     try {
-        if ( !localFilePath ) return null
+        if ( !localFilePath ) return null;
          // upload the file on cloudinary
-         cloudinary.uploader.upload(localFilePath, {
+         
+         const response = await cloudinary.uploader.upload(localFilePath, {
             resource_type: "auto"
          })
 
 //  file has been uploaded successfully
-         console.log("file is uploaded on cloudinary ", response.url);
+        //  console.log("file is uploaded on cloudinary ", response.url);
+        fs.unlinkSync(localFilePath)
          return response;
     } catch (error) {
         fs.unlinkSync(localFilePath)
-        // remove the locally save dfile as the upload operation got failed  
+        // remove the locally saved file as the upload operation got failed  
         return null;
     }
 }
