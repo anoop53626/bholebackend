@@ -17,7 +17,8 @@ app.use(cors({
 }))
 
 app.use(express.json({limit: "16kb"}))
-// pehle express nhi le pta tha tb wo body parser ja use krta tha
+// pehle express nhi le pta tha tb wo body parser ka use krta tha
+
 app.use(express.urlencoded({extended: true, limit:"16kb"}))
 
 app.use(express.static("public"))
