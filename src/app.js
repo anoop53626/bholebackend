@@ -34,7 +34,7 @@ import userRouter  from "./routes/user.routes.js";
 
 
 // routes declaration
-// app.get  tb tk tha jb tk rotes nhi tha lekin ab app.use  use krte h
+// app.get  tb tk tha jb tk ruotes nhi tha lekin ab app.use  use krte h
 app.use("/api/v1/users", userRouter) // standard pracrtice
 
 //   https://localhost:8000/api/v1/users/register

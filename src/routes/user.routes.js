@@ -52,7 +52,7 @@ router.route("/update-account-details").patch(verifyJWT, updateAccountDetails) /
 
 router.route("/update-user-avatar").patch(verifyJWT, upload.single("avatar"), updateUserAvatar) // make sure use proper naming syntax
 
-router.route("/update-user-coverImage").patch(verifyJWT, upload.single("/coverImage")/* multer */,updateUserCoverImage) // make sure use prper namiiing syntax
+router.route("/update-user-coverImage").patch(verifyJWT, upload.single("coverImage")/* multer se ayya h */,updateUserCoverImage) // make sure use prper namiiing syntax
 
 //params ke wjh se aise syntax aaya h : get (url se data le rhe h issi wjh se)
 router.route("/c/:username").get(verifyJWT, getUserChannelProfile)

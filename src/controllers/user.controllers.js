@@ -206,7 +206,7 @@ const changeCurrentPassword = asyncHandler (async(req, res) =>{
 )
 });
 
-//get current user details
+//get current user details:read operations h and discuss about middlewares
 const getCurrentUser = asyncHandler(async(req, res) =>{
     return res
     .status(200)
@@ -302,6 +302,7 @@ const updateUserCoverImage = asyncHandler(async(req, res) =>{
 
 // channel and subcriptions details abou users and user:
 //  isse hm params mai  se le rhe h
+// we write this using aggregate pipeline
 const getUserChannelProfile = asyncHandler(async(req, rs) =>{
     const {username} = req.params
 
