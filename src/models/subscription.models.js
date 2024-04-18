@@ -6,6 +6,11 @@ const subscriptionSchema = new Schema({
         ref: "User"
     },
 
+    // documentation ke through hm kitne channels  match kiye h to hmutne counts krnege
+    // hm kitne channels subscribes kiye h :
+    // it's not mysql it's MONGODB
+    
+
    channel: {
         type: Schema.Types.ObjectId, // one whom to  subscribe 
         ref: "User"

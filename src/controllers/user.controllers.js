@@ -195,18 +195,23 @@ const changeCurrentPassword = asyncHandler (async(req, res) =>{
     throw new ApiError(400, "Invalid Old Password");
    }
 
-   user.password = newPassword
-   await user.save({validateBeforeSave: false})
+   user.password = newPassword;
+   await user.save({validateBeforeSave: false}); // Saves the user object to the database without performing validation before saving
+
    return res
    .status(200)
-   .json(new ApiResponse(200, {}, "Password changed successfully"))
+   .json(
+    new ApiResponse(200, {}, "Password changed successfully")
+)
 });
 
 //get current user details
 const getCurrentUser = asyncHandler(async(req, res) =>{
     return res
     .status(200)
-    .json(200, req.user, "Current User Fetched Successfully")
+    .json(
+        new ApiResponse(200, req.user, "Current User Fetched Successfully")
+    )
 });
 
 //update user account details
@@ -217,7 +222,7 @@ const updateAccountDetails = asyncHandler(async(req, res) =>{
         throw new ApiError(400, "All fields are required")
     }
 
-   const user = User.findByIdAndUpdate(
+   const user = await User.findByIdAndUpdate(
         req.user?._id,
         {
             $set: {
@@ -227,9 +232,12 @@ const updateAccountDetails = asyncHandler(async(req, res) =>{
         },
         {new: true}
     ).select("-password ")
+
     return res
     .status(200)
-    .json(new ApiResponse(200, "Account datils updated successfully"))
+    .json(
+        new ApiResponse(200, "Account datils updated successfully")
+    )
 });
 
 // update user avatar
@@ -239,6 +247,7 @@ const updateUserAvatar = asyncHandler(async(req, res) =>{
     if (!avatarLocalPath) {
         throw new ApiError(400, "Avatar file is missing");
     }
+    //  todo delete old image avatar: agr aap krna chahte ho tb ek utils add krke kr lo
     const avatar = await uploadOnCloudinary(avatarLocalPath)
 
     if (!avatar.url) {
@@ -284,11 +293,86 @@ const updateCoverImage = asyncHandler(async(req, res) =>{
 
     return res
     .status(200)
-    .json(new ApiResponse(200, "Cover image updated successfully"))
+    .json(
+        new ApiResponse(200, "Cover image updated successfully")
+    )
 
 });
 
+// channel and subcriptions details abou users and user
+const getUserChannelProfile = asyncHandler(async(req, rs) =>{
+    const {username} = req.params
 
+    if(!username?.trim()){
+        throw new ApiError(400, "Username is missing");
+    }
+
+
+    // User.find({username})
+   const channel =  await User.aggregate([
+    { // match users
+        $match: {
+            username: username?.toLowerCase()
+        }
+    },
+    { //how many subscribers user have
+        $lookup: {
+            from: "subscriptions",
+            localField: "_id",
+            foreignField: "channel",
+            as: "subscribers"   
+        } // ye hmko mil gya ki kitne subscribers hme subscribe kiye hue h
+    },
+    { // how many user subscribed
+        $lookup:{
+            from: "subscriptions",
+            localField: "_id",
+            foreignField: "subscriber",
+            as: "subscribedTo" // hmne kitne channels subscribe kiye h 
+        }
+    },
+    { //some fields added 
+        $addFields: {
+            subscribersCount: {
+                $size: "$subscribers"
+            },
+            channelsSubscribedToCount: {
+                $size: "$subscribedTo"                
+            },
+            isSubscribed :{
+                $cond: {
+                    if: {$in: [req.user?._id, "$subscribers.subscriber"]}// user present h ya nhi h isse hme ye pta chlta h 
+                    then: true,
+                    else: false
+                }
+            }
+        }
+    },
+    { // add projects and provide selected fields
+        $projects:{
+            fullname: 1,
+            username: 1,
+            subscribersCount: 1,
+            channelsSubscribedToCount: 1,
+            isSubscribed: 1,
+            avatar: 1,
+            coverImage: 1,
+            email: 1 
+        }
+    }
+   ])
+
+       //channel not found 
+if(!channel?.length) {
+    throw new ApiError(404, "channels does not exits")
+}
+
+return res
+.status(200)
+.json(
+    new ApiResponse(200, channel[0], "User channel fetched successfully")
+)
+}); // make sure to do console.log channel
 
 export {
     registerUser,
@@ -299,5 +383,6 @@ export {
     getCurrentUser,
     updateAccountDetails,
     updateUserAvatar,
-    updateCoverImage
+    updateCoverImage,
+    getUserChannelProfile
 };
