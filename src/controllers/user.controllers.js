@@ -271,7 +271,7 @@ const updateUserAvatar = asyncHandler(async(req, res) =>{
 });
 
 // update user coverimage
-const updateCoverImage = asyncHandler(async(req, res) =>{
+const updateUserCoverImage = asyncHandler(async(req, res) =>{
     const coverImageLocalPath  = req.file?.path//multer middlewares ke through mila h 
 
     if (!coverImageLocalPath) {
@@ -300,7 +300,8 @@ const updateCoverImage = asyncHandler(async(req, res) =>{
 
 });
 
-// channel and subcriptions details abou users and user
+// channel and subcriptions details abou users and user:
+//  isse hm params mai  se le rhe h
 const getUserChannelProfile = asyncHandler(async(req, rs) =>{
     const {username} = req.params
 
@@ -342,7 +343,8 @@ const getUserChannelProfile = asyncHandler(async(req, rs) =>{
             },
             isSubscribed :{
                 $cond: {
-                    if: {$in: [req.user?._id, "$subscribers.subscriber"]}// user present h ya nhi h isse hme ye pta chlta h 
+                    if: {$in: [req.user?._id, "$subscribers.subscriber"]},   
+                    // user present h ya nhi h isse hme ye pta chlta h 
                     then: true,
                     else: false
                 }
@@ -442,7 +444,7 @@ export {
     getCurrentUser,
     updateAccountDetails,
     updateUserAvatar,
-    updateCoverImage,
+    updateUserCoverImage,
     getUserChannelProfile,
     getWatchHistory
 };

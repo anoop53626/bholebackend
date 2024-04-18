@@ -1,8 +1,23 @@
 import { Router } from "express";
-import { loginUser, logoutUser, registerUser,refreshAccessToken } from "../controllers/user.controllers.js";
+import {
+     loginUser,
+     logoutUser, 
+     registerUser, 
+     refreshAccessToken, 
+     changeCurrentPassword, 
+     getCurrentUser, 
+     updateAccountDetails, 
+     updateUserAvatar, 
+     updateUserCoverImage, 
+     updateUserCoverImage, 
+     getUserChannelProfile, 
+     getWatchHistory
+     } from "../controllers/user.controllers.js";
+
 import { upload } from "../middlewares/multer.middlewares.js";
 
 import { verifyJWT } from "../middlewares/auth.middlewares.js";
+
  const router = Router()
 
  router.route("/register").post(
@@ -25,8 +40,23 @@ import { verifyJWT } from "../middlewares/auth.middlewares.js";
 router.route("/login").post(loginUser)
 
 // secured routes
-router.route("/logout").post(verifyJWT,/*anotherMid,*/ logoutUser) // aap jitne jaho middlewares add kr skte ho
-router.route("/refresh-token").post(refreshAccessToken)
+router.route("/logout").post(verifyJWT,/*anotherMid,*/ logoutUser) // aap jitne jaho middlewares add kr skte ho if we need
 
+router.route("/refresh-token").post(refreshAccessToken) // changes everythings
+
+router.route("/change-password").post(verifyJWT, changeCurrentPassword) // changes everythings 
+
+router.route("/current -user").get(verifyJWT, getCurrentUser ) // use only data indformation
+
+router.route("/update-account-details").patch(verifyJWT, updateAccountDetails) //patch use: if u use post then all users details update
+
+router.route("/update-user-avatar").patch(verifyJWT, upload.single("avatar"), updateUserAvatar) // make sure use proper naming syntax
+
+router.route("/update-user-coverImage").patch(verifyJWT, upload.single("/coverImage")/* multer */,updateUserCoverImage) // make sure use prper namiiing syntax
+
+//params ke wjh se aise syntax aaya h : get (url se data le rhe h issi wjh se)
+router.route("/c/:username").get(verifyJWT, getUserChannelProfile)
+
+router.route("/wacth-history").get(verifyJWT, getWatchHistory )
 
  export default router;
