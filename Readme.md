@@ -75,3 +75,6 @@ GET(retrieve),HEAD(no message),OPTIONS,TRACE,DELETE,PUT(replace), pOST(interact)
 
 # api testing: thunderclient
 # postman:common tools h jo hme janan hi chahiye'
+ #  hashnote pr ek article likhiye:  assignment from me
+ read about pipeline
+ 
