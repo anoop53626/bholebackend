@@ -4,6 +4,7 @@ import { User } from "../models/user.models.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import  jwt from "jsonwebtoken";
+import mongoose, { mongo } from "mongoose";
 
 // when we use this new refresh and access token are generated
 const generateAccessAndRefreshTokens = async (userId) => {
@@ -374,6 +375,64 @@ return res
 )
 }); // make sure to do console.log channel
 
+// watch history
+const getWatchHistory = asyncHandler(async(req,res) =>{
+const user = await User.aggregate(
+    [
+        {
+            $match: {        
+                _id: new mongoose.Types.OjectId(req.user._id)
+            }
+        },
+        {
+            $lookup: {
+                from: "videos",
+                localField: "watchHistory",
+                foreignField: "_id",
+                as: "watchHistory",
+                pipeline: [
+                    { // ab hm videos ke andar h
+                        $lookup: {
+                            from: "users",
+                            localField: "owner",
+                            foreignField: "_id",
+                            as: "owner",
+                            pipeline: [ // subpipeline h ye
+                                {
+                                    $project: {
+                                        fullname: 1,
+                                        username: 1,
+                                        avatar: 1 
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    { // ek aur pipeline de dete h apko
+                        $addFields:{
+                            owner: {
+                                $first: "$owner" //isse usko sidhe owner object mil jata h jisse unko asani hogi
+                            }
+                        }
+                    }                    
+                ]
+            } // hme further ek subpipeline lgni pdegi wrna hme owner ka kuch nhi milega        
+        }
+    ]
+)
+
+return res
+.status(200)
+.json(
+    new ApiResponse(
+        200,
+        user[0].watchHistory,
+        " Watch history fetched successfullly "
+    )
+)
+});
+
+
 export {
     registerUser,
     loginUser,
@@ -384,5 +443,6 @@ export {
     updateAccountDetails,
     updateUserAvatar,
     updateCoverImage,
-    getUserChannelProfile
+    getUserChannelProfile,
+    getWatchHistory
 };

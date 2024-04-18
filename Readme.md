@@ -77,5 +77,6 @@ GET(retrieve),HEAD(no message),OPTIONS,TRACE,DELETE,PUT(replace), pOST(interact)
 # postman:common tools h jo hme janan hi chahiye'
  #  hashnote pr ek article likhiye:  assignment from me
  read about  aggregate pipeline:
- match ,lookup, adsfileds, 
+ match ,lookup, addfileds, 
  
+ # we use advanced data Structure pipelines
