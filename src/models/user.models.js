@@ -87,10 +87,10 @@ userSchema.methods.generateAccessToken = function(){    //short lived
         {
             expiresIn: process.env.ACCESS_TOKEN_EXPIRY
         }
-    )
-}
+    );
+};
 
-userSchema.methods.generateFreshToken = function(){
+userSchema.methods.generateRefreshToken = function(){
 
     return jwt.sign(
          {

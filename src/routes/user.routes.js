@@ -8,8 +8,8 @@ import {
      getCurrentUser, 
      updateAccountDetails, 
      updateUserAvatar, 
-     updateUserCoverImage, 
-     updateUserCoverImage, 
+     
+     updateCoverImage, 
      getUserChannelProfile, 
      getWatchHistory
      } from "../controllers/user.controllers.js";
@@ -19,6 +19,9 @@ import { upload } from "../middlewares/multer.middlewares.js";
 import { verifyJWT } from "../middlewares/auth.middlewares.js";
 
  const router = Router()
+
+ 
+
 
  router.route("/register").post(
     upload.fields([
@@ -36,7 +39,6 @@ import { verifyJWT } from "../middlewares/auth.middlewares.js";
     registerUser
 )
 
-
 router.route("/login").post(loginUser)
 
 // secured routes
@@ -52,7 +54,7 @@ router.route("/update-account-details").patch(verifyJWT, updateAccountDetails) /
 
 router.route("/update-user-avatar").patch(verifyJWT, upload.single("avatar"), updateUserAvatar) // make sure use proper naming syntax
 
-router.route("/update-user-coverImage").patch(verifyJWT, upload.single("coverImage")/* multer se ayya h */,updateUserCoverImage) // make sure use prper namiiing syntax
+router.route("/update-user-coverImage").patch(verifyJWT, upload.single("coverImage")/* multer se ayya h */,updateCoverImage) // make sure use prper namiiing syntax
 
 //params ke wjh se aise syntax aaya h : get (url se data le rhe h issi wjh se)
 router.route("/c/:username").get(verifyJWT, getUserChannelProfile)
