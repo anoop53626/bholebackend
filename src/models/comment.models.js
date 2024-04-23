@@ -12,6 +12,7 @@ const commentSchema = new Schema(
             type: Schema.Types.ObjectId,
             ref: "Video"
         },
+        // u can use user instead of owner as your project defined constraint
         owner: {
             type: Schema.Types.ObjectId,
             ref: "User"

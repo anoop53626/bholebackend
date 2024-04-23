@@ -9,6 +9,7 @@
 
 ## Technologies and Tools Used:
 * npm Packages: dotenv, mongoose, express, cookie-parser, cors, multer, bcrypt.js, mongoose-aggregate-paginate-v2, cloudinary.
+
 * Tools: nodemon, prettier.
 
 
@@ -96,3 +97,12 @@
 * Write an article on Hashnote covering topics like aggregate pipeline
 * HTTP methods:  status codes and advanced data structure in aggregate pipelines.
 
+* fork 
+* github host
+
+# Aggregate pipeline important points:
+* Aggregation pipelines run with the db.collection.aggregate() method do not modify documents in a collection, unless the pipeline contains a $merge or $out stage.
+* The same stage can appear multiple times in the pipeline with these stage exceptions: $out, $merge, and $geoNear.
+
+* use the $accumulator and $function aggregation operators to define custom aggregation expressions in JavaScript.
+* 

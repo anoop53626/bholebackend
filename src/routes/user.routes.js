@@ -8,7 +8,6 @@ import {
      getCurrentUser, 
      updateAccountDetails, 
      updateUserAvatar, 
-     
      updateCoverImage, 
      getUserChannelProfile, 
      getWatchHistory
