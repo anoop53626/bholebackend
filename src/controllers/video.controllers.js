@@ -9,7 +9,7 @@ import {uploadOnCloudinary} from "../utils/cloudinary.js"
 import { getJsPageSizeInKb } from "next/dist/build/utils.js"
 import { pages } from "next/dist/build/templates/app-page.js"
 
-
+// getting all videos 
 const getAllVideos = asyncHandler(async (req, res) => {
     let { page = 1, limit = 10, query, sortBy, sortType, userId } = req.query
     // parsing  query 
@@ -61,25 +61,74 @@ const getAllVideos = asyncHandler(async (req, res) => {
         
      
     } catch (error) {
-        throw new ApiError(500, error?.message || "Internal server error")
+        throw new ApiError(404, error?.message || "videos are not available ")
         
     }
 
 })
 
+// getting video, upload to cloudinary, creating video
 const publishAVideo = asyncHandler(async (req, res) => {
-    const { title, description} = req.body
-    // TODO: get video, upload to cloudinary, create video
-})
+    const { title, description} = req.body;
+    const {video} = req.files;
+try {
+    // checking video files exist 
+    if(!video){
+        throw new ApiError(400,"Video file required");
+    }
+    //upload video on cloudinary 
+    const cloudinaryRseponse = await uploadOnCloudinary(video);
+// creating video record in database
+    const newVideo  = new Video({
+        title,
+        description,
+        videoUrl: cloudinaryRseponse.secure_url
+    });
+    await newVideo.save();
 
+    // return Success
+    return res
+    .status(201)
+    .json(new ApiResponse(201, newVideo, "Video published successfully"))
+    
+} catch (error) {
+    throw new ApiError(404, error?.message || "Videos publisher  not found ")
+}
+});
+
+// getting video by id 
 const getVideoById = asyncHandler(async (req, res) => {
     const { videoId } = req.params
-    //TODO: get video by id
+    try {
+        //query db to find  video by its id 
+        const video = await Video.findById(videoId);
+        if (!video){
+            throw new ApiError(404,"video not found")
+        }
+        // return success
+        return res
+        .status(200) // 200: success
+        .json(new ApiResponse(200, video, "Video retrived successfully"));
+
+    } catch (error) {
+        throw new ApiError(404, "Vodeos are not available " )// 404: not found
+        
+    }
+  
 })
 
+ //update video details like title, description, thumbnail
 const updateVideo = asyncHandler(async (req, res) => {
-    const { videoId } = req.params
-    //TODO: update video details like title, description, thumbnail
+    const { videoId } = req.params;
+    const {title, description, thumnail } = req.body;
+
+    try {
+        
+    } catch (error) {
+        throw new ApiError(404, "updating video dateils failed")
+        
+    }
+   
 
 })
 

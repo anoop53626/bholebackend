@@ -32,11 +32,13 @@
 * 4xx  : client error
 * 5xx  : server error
 
-* 101(continue), 
-* 102(processing)
-* 200(ok)
-* 201(created),202(acceptance)
+* 101(continue), 102(processing)
 
+* 200(ok),201(created),202(acceptance)
+
+* 400: Bad Request, 401: Unauthorized, 404: Not Found, 408: Request Timeout, 414: URI Too Long
+
+* 500: Internal Server Error, 
 ## Additional Points:
 * Importance of API testing tools like Thunderclient and Postman.
 * Writing controllers after understanding HTTP servers.
