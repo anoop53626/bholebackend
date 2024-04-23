@@ -120,22 +120,54 @@ const getVideoById = asyncHandler(async (req, res) => {
  //update video details like title, description, thumbnail
 const updateVideo = asyncHandler(async (req, res) => {
     const { videoId } = req.params;
-    const {title, description, thumnail } = req.body;
+    const {title, description, thumbnail } = req.body;
 
     try {
-        
+        let video = await video.findById(videoId);
+
+        if (!video) {
+            throw new ApiError(404, null, "video not found")            
+        }
+        //update video details 
+        video.title = title || video.title;
+        video.description = description || video.description;
+        video.thumbnail = thumbnail || video.thumbnail;
+
+        await video.save();
+        // return success
+        return res
+        .status(200)
+        .json(new ApiResponse(200, video, "video updated successfully")) 
+
+       
     } catch (error) {
         throw new ApiError(404, "updating video dateils failed")
         
-    }
-   
+    } 
+});
 
-})
-
+// deleting video 
 const deleteVideo = asyncHandler(async (req, res) => {
-    const { videoId } = req.params
-    //TODO: delete video
-})
+    const { videoId } = req.params;
+    try {
+        let video = await video.findById(videoId);
+
+        if (!video) {
+            throw new ApiError(404, null, "video not found")            
+        }
+        
+        await video.remove();
+        // return success
+        return res
+        .status(200)
+        .json(new ApiResponse(200, video, "video deleted successfully")) 
+
+       
+    } catch (error) {
+        console.error('Error deleting video:', error);
+        throw new ApiError(500, "Internal server error ")        
+    } 
+});
 
 const togglePublishStatus = asyncHandler(async (req, res) => {
     const { videoId } = req.params
