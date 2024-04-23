@@ -5,7 +5,7 @@ import {ApiResponse} from "../utils/ApiResponse.js"
 import {asyncHandler} from "../utils/asyncHandler.js"
 
 
-// get comments on video
+// getting  comments on video
 const getVideoComments = asyncHandler(async (req, res) => {
     // get all comments for a video
     // parse video id
@@ -58,7 +58,7 @@ const getVideoComments = asyncHandler(async (req, res) => {
 });
 
 
- // add a comment to a video
+ // adding comment to a video
 const addComment = asyncHandler(async (req, res) => {
     try {
         // find a video and create an new comment 
@@ -81,7 +81,7 @@ const addComment = asyncHandler(async (req, res) => {
     }
 });
 
-// update a comment
+// updating a comment
 const updateComment = asyncHandler(async (req, res) => {
     try {
         const { commentId } = req.params;
@@ -107,7 +107,7 @@ const updateComment = asyncHandler(async (req, res) => {
     }
 });
 
-// delete a comment
+// deleting a comment
 const deleteComment = asyncHandler(async (req, res) => {
     try {
         const { commentId } = req.params;
