@@ -21,7 +21,7 @@ const toggleVideoLike = asyncHandler(async (req, res) => {
     
     try {
         // validate videoID
-        if (isValidObjectId) {
+        if (isValidObjectId(videoId)) {
             throw new ApiError(400, "Invalid video ID")            
         }
         //check if the video exists
@@ -72,7 +72,7 @@ const toggleCommentLike = asyncHandler(async (req, res) => {
 
     try {
         // validate comment id 
-        if (!isValidObjectId) {
+        if (!isValidObjectId(commentId)) {
             throw new ApiError(400, "Invalid comment ID")
         } 
          // check comment exists or not

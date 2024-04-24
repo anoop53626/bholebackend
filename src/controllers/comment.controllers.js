@@ -10,7 +10,7 @@ const getVideoComments = asyncHandler(async (req, res) => {
     // get all comments for a video
     // parse video id
     const {videoId} = req.params; 
-    if (!isValidObjectId) {
+    if (!isValidObjectId(videoId)) {
         throw new ApiError(400, "Invalid video ID")
         
     }
