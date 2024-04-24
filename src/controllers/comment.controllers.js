@@ -1,4 +1,4 @@
-import mongoose from "mongoose"
+import mongoose, { isValidObjectId } from "mongoose"
 import {Comment} from "../models/comment.model.js"
 import {ApiError} from "../utils/ApiError.js"
 import {ApiResponse} from "../utils/ApiResponse.js"
@@ -10,6 +10,10 @@ const getVideoComments = asyncHandler(async (req, res) => {
     // get all comments for a video
     // parse video id
     const {videoId} = req.params; 
+    if (!isValidObjectId) {
+        throw new ApiError(400, "Invalid video ID")
+        
+    }
     // pagination for page and limit
     // const {page = 1, limit = 10} = req.query :we can write this code with optimized version
     const page = parseInt(req.query.page) || 1;
@@ -50,34 +54,58 @@ const getVideoComments = asyncHandler(async (req, res) => {
         );
 
     } catch (error) {
-        // handle errors
-        throw new ApiError(500, error?.message || "Error while getting video comments");
-    }     
-   
-   
+         // Handle errors
+
+        if (error instanceof ApiError) {
+            return res.status(error.statusCode).json(new ApiResponse(error.statusCode, null, error.message));
+        } else {
+            console.error("Error while getting video comments:", error);
+            return res
+            .status(500)
+            .json(new ApiResponse(500, null, "Error while getting video comments"));
+        }
+    }    
 });
 
 
  // adding comment to a video
 const addComment = asyncHandler(async (req, res) => {
     try {
-        // find a video and create an new comment 
+        //extract necesssary data
+        // find a videoId and  userID are valid 
+       
         const {videoId, userId, content} = req.body;
-
+        
+        // check user id and video id are valid
+        if (isValidObjectId(videoId) || isValidObjectId(userId)) {
+            throw new ApiError(400,"Invalid video ID or USer ID")            
+        }
+        
+       // create an new comment 
         const newComment = new Comment({
             video: videoId,
             user: userId,
             content: content
         });
+
         // save the comment in db
         await newComment.save();
+        
         // retrun success
         return res
-        .status(200)
-        .json(new ApiResponse(200, newComment, "New comment added successfully"))
+        .status(201)
+        .json(new ApiResponse(201, newComment, "New comment added successfully"))
 
     } catch (error) {
-        throw new ApiError(500, error?.message || "Error while adding video comments");   
+        // Handle errors
+        if (error instanceof ApiError) {
+            return res.status(error.statusCode).json(new ApiResponse(error.statusCode, null, error.message));
+        } else {
+            console.error("Error while adding video comments:", error);
+            return res
+            .status(500)
+            .json(new ApiResponse(500, null, "Error while adding video comments"));
+        }  
     }
 });
 
@@ -102,8 +130,15 @@ const updateComment = asyncHandler(async (req, res) => {
         .json(new ApiResponse(200, comment, "comment updated successfully"));
 
     } catch (error) {
-        throw new ApiError(500, error?.message || "Error while updating video comments");   
-        
+        // Handle errors
+        if (error instanceof ApiError) {
+            return res.status(error.statusCode).json(new ApiResponse(error.statusCode, null, error.message));
+        } else {
+            console.error("Error while updating video comments:", error);
+            return res
+            .status(500)
+            .json(new ApiResponse(500, null, "Error while updating video comments"));
+        }
     }
 });
 
@@ -127,9 +162,12 @@ const deleteComment = asyncHandler(async (req, res) => {
         .json(new ApiResponse(200, comment, "Comments deleted successfully"));
 
     } catch (error) {
-        throw new ApiError(500, error?.message || "Error while deleting video comments");           
-    }
-})
+ // Handle errors
+ console.error("Error while deleting video comment:", error);
+ return res
+ .status(500)
+ .json(new ApiResponse(500, null, "Error while deleting video comment"));    }
+});
 
 export {
     getVideoComments, 
