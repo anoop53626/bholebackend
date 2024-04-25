@@ -36,7 +36,7 @@
 
 * 200(ok),201(created),202(acceptance)
 
-* 400: Bad Request, 401: Unauthorized, 404: Not Found, 408: Request Timeout, 414: URI Too Long
+* 400: Bad Request, 401: Unauthorized,403: Forbidden, 404: Not Found, 408: Request Timeout, 414: URI Too Long
 
 * 500: Internal Server Error, 
 ## Additional Points:
